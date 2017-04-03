@@ -7,7 +7,7 @@ import taco.jalapeno.vars.Var;
 
 public class Executer {
 	
-	public static ArrayList<Var> execute(ArrayList<ArrayList<Link>> chains, Var[] arguments) throws Exception{
+	public static Var[] execute(ArrayList<ArrayList<Link>> chains, Var[] arguments) throws Exception{
 		for(ArrayList<Link> chain_al : chains){
 			ArrayList<Link> chain = new ArrayList<Link>();
 			for(int i=0; i < chain_al.size(); i++){
@@ -137,6 +137,6 @@ public class Executer {
 				}
 			}
 		}
-		return null;
+		return arguments;
 	}
 }

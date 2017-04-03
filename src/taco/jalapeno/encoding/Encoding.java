@@ -14,13 +14,17 @@ import taco.jalapeno.atom.link.MonadicLink;
 import taco.jalapeno.atom.link.NiladicLink;
 import taco.jalapeno.atom.link.links.monads.MonadPrint;
 import taco.jalapeno.atom.link.links.nilads.NiladHello;
+import taco.jalapeno.atom.link.links.nilads.literals.NiladLiteral;
+import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateCompressed;
+import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateNumber;
+import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateString;
 
 public class Encoding {
 	
 	static HashMap<Byte, Class<?>> byte_mapping;
 	static HashMap<String, Byte> token_mapping;
 	static HashMap<Character, Byte> char_mapping;
-	static Pattern match_strings = Pattern.compile("(?<!\\\\)((?:\\\\\\\\)*)([\"'])([\\x00-\\xFF]*?(?<!\\\\)(?:\\\\\\\\)*)\\2");
+	static Pattern match_strings = Pattern.compile("(?<!\\\\)((?:\\\\\\\\)*)([\"'`])(.*?(?<!\\\\)(?:\\\\\\\\)*)\\2", Pattern.DOTALL);
 	
 	public static void spawn(){
 		byte_mapping = new HashMap<Byte, Class<?>>();
@@ -31,15 +35,27 @@ public class Encoding {
 		add_encoding(AtomTerminateChain.class, "TERMINATE_CHAIN", '\n', '¶');
 		add_encoding(MultiByte.class, "BLAH", 'z');
 		
-		// NILADS
-		add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
-		
 		// MONADS
 		add_encoding(MonadPrint.class, "PRINT", 'p');
 		
 		// DYADS
+		
+		// NILADS
+		add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
+		add_encoding(NiladLiteral.class, "LITERAL", '“');
+		add_encoding(NiladTerminateString.class, "LITERAL_END_STRING", '”');
+		add_encoding(NiladTerminateNumber.class, "LITERAL_END_NUMBER", '»');
+		add_encoding(NiladTerminateCompressed.class, "LITERAL_END_COMPRESSED", '’');
+		
+		finish_encoding();
 	}
 	
+	private static void finish_encoding() {
+		while(nextbyte!=0){
+			add_encoding(AtomNull.class, "NUL", '_');
+		}
+	}
+
 	public static void add_encoding(Class<?> target, String token, char... chr){
 		byte b = next_byte();
 		byte_mapping.put(b, target);
@@ -74,16 +90,19 @@ public class Encoding {
 	
 	public static String DeTokenize(String code, boolean surpress){
 		ArrayList<byte[]> byte_literals = new ArrayList<byte[]>();
+		System.err.println(code);
 		Matcher m = match_strings.matcher(code);
 		StringBuffer sb = new StringBuffer();
 		
 		while(m.find()){
 			if(m.group(2).equals("\"")){
 				byte_literals.add(escape(m.group(3)).getBytes());
-			}else{
+			}else if(m.group(2).equals("'")){
 				byte_literals.add(DeCharacterize(escape(m.group(3)),surpress).getBytes());
+			}else{
+				byte_literals.add(new byte[]{(byte)Integer.parseInt(m.group(3))});
 			}
-			m.appendReplacement(sb,m.group(1)+" LITERAL_BYTE");
+			m.appendReplacement(sb,m.group(1)+" LITERAL_BYTE ");
 		}
 		m.appendTail(sb);
 		

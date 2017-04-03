@@ -6,6 +6,17 @@ import java.util.ArrayList;
 public class VarNumber extends Var {
 	BigDecimal data = BigDecimal.ZERO;
 	
+	public VarNumber(BigDecimal n) {
+		data = n;
+	}
+
+	public VarNumber() {
+	}
+
+	public String toString(){
+		return data.toString();
+	}
+	
 	public VarChar toChar(){
 		return new VarChar((char)data.intValue());
 	}
