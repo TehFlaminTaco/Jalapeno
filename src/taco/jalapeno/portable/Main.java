@@ -11,7 +11,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		jalapeno = new Jalapeno();
-		Var[] out = Executer.execute(jalapeno.compile("LITERAL \"OH MY GOD\" LITERAL_END_UGLY PRINT", Flags.FLAG_TOKEN + Flags.FLAG_PRINT_CHARS), new Var[0]);
+		Var[] out = Executer.execute(jalapeno.compile("LITERAL \"OH MY GOD\" LITERAL_END_UGLY", Flags.FLAG_TOKEN + Flags.FLAG_PRINT_CHARS + Flags.FLAG_PRINT_BYTES), new Var[0]);
 		for(int i=0; i<out.length; i++){
 			System.out.print(out[i]);
 		}

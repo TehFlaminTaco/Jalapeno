@@ -27,6 +27,9 @@ public class Compiler {
 		
 		int i = 0;
 		byte[] bytes = code.getBytes();
+		if((flags & Flags.FLAG_PRINT_BYTES)!=0){
+			System.out.println(new String(bytes));
+		}
 		ArrayList<ArrayList<Link>> chain_chains = new ArrayList<ArrayList<Link>>();
 		ArrayList<Link> chain = new ArrayList<Link>();
 		while(i < bytes.length){

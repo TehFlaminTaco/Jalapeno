@@ -5,4 +5,5 @@ public class Flags {
 	public static final int FLAG_UTF8 = 2;
 	public static final int FLAG_SURPRESS = 4;
 	public static final int FLAG_PRINT_CHARS = 8;
+	public static final int FLAG_PRINT_BYTES = 16;
 }
