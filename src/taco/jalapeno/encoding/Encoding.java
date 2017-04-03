@@ -18,6 +18,7 @@ import taco.jalapeno.atom.link.links.nilads.literals.NiladLiteral;
 import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateCompressed;
 import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateNumber;
 import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateString;
+import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateUgly;
 
 public class Encoding {
 	
@@ -46,6 +47,7 @@ public class Encoding {
 		add_encoding(NiladTerminateString.class, "LITERAL_END_STRING", '”');
 		add_encoding(NiladTerminateNumber.class, "LITERAL_END_NUMBER", '»');
 		add_encoding(NiladTerminateCompressed.class, "LITERAL_END_COMPRESSED", '’');
+		add_encoding(NiladTerminateUgly.class, "LITERAL_END_UGLY", '"');
 		
 		finish_encoding();
 	}
