@@ -1,5 +1,15 @@
 package taco.jalapeno.atom.link;
 
+import taco.jalapeno.vars.Var;
+
 public class NiladicLink extends Link {
-	public static final int arguments = 0;
+	public int getarguments(){
+		return 0;
+	}
+	
+	public Var execute(Var[] arguments){
+		return execute();
+	}
+	
+	public Var execute(){return null;}
 }

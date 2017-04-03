@@ -4,13 +4,24 @@ import taco.jalapeno.vars.Var;
 import taco.jalapeno.vars.VarNumber;
 
 public class MonadicLink extends Link {
-	public static final int arguments = 1;
-	
-	public void execute(Var[] arguments){
-		execute(new VarNumber());
+	public int getarguments(){
+		return 1;
 	}
 	
-	public void execute(Var a){
-		
+	public Var execute(Var[] arguments){
+		for(int i=0; i<arguments.length; i++){
+			if(arguments[i]==null){
+				arguments[i] = new VarNumber();
+			}
+		}
+		if(arguments.length==0){
+			return execute(new VarNumber());
+		}else{
+			return execute(arguments[0]);
+		}
+	}
+	
+	public Var execute(Var a){
+		return null;
 	}
 }

@@ -9,6 +9,11 @@ import taco.jalapeno.atom.Atom;
 import taco.jalapeno.atom.MultiByte;
 import taco.jalapeno.atom.generics.AtomNull;
 import taco.jalapeno.atom.generics.AtomTerminateChain;
+import taco.jalapeno.atom.link.DyadicLink;
+import taco.jalapeno.atom.link.MonadicLink;
+import taco.jalapeno.atom.link.NiladicLink;
+import taco.jalapeno.atom.link.links.monads.MonadPrint;
+import taco.jalapeno.atom.link.links.nilads.NiladHello;
 
 public class Encoding {
 	
@@ -25,6 +30,14 @@ public class Encoding {
 		add_encoding(AtomNull.class, "NULL", '\0');
 		add_encoding(AtomTerminateChain.class, "TERMINATE_CHAIN", '\n', '¶');
 		add_encoding(MultiByte.class, "BLAH", 'z');
+		
+		// NILADS
+		add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
+		
+		// MONADS
+		add_encoding(MonadPrint.class, "PRINT", 'p');
+		
+		// DYADS
 	}
 	
 	public static void add_encoding(Class<?> target, String token, char... chr){
