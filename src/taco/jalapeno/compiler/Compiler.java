@@ -32,6 +32,7 @@ public class Compiler {
 		}
 		ArrayList<ArrayList<Link>> chain_chains = new ArrayList<ArrayList<Link>>();
 		ArrayList<Link> chain = new ArrayList<Link>();
+		chain_chains.add(chain);
 		while(i < bytes.length){
 			Class<?> a = (Class<?>) Encoding.get(bytes[i]);
 			if(a==null){
@@ -78,18 +79,14 @@ public class Compiler {
 			
 			if(atom instanceof AtomTerminateChain){
 				if(chain.size()>0){
-					chain_chains.add(chain);
 					chain = new ArrayList<Link>();
+					chain_chains.add(chain);
 				}
 			}else{
-				atom.compile(chain);
+				atom.compile(chain_chains);
 			}
 			
 			i++;
-		}
-		
-		if(chain.size()>0){
-			chain_chains.add(chain);
 		}
 		
 		

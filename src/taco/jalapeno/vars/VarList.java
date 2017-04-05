@@ -1,9 +1,10 @@
 package taco.jalapeno.vars;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class VarList extends Var {
-	ArrayList<Var> data;
+	public ArrayList<Var> data;
 	
 	public VarList(ArrayList<Var> l){
 		this.data = l;
@@ -37,5 +38,20 @@ public class VarList extends Var {
 		}else{
 			return data.toString();
 		}
+	}
+	
+	public VarChar toChar(){
+		return this.toNumber().toChar();
+	}
+	
+	public VarNumber toNumber(){
+		String s = this.toString();
+		VarNumber out = new VarNumber();
+		try{out.data = new BigDecimal(s);}finally{} // If it can convert to a number, than do so.
+		return out;
+	}
+	
+	public VarList toList(){
+		return this;
 	}
 }

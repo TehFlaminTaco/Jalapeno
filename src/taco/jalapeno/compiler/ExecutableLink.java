@@ -4,7 +4,6 @@ import taco.jalapeno.atom.link.DyadicLink;
 import taco.jalapeno.atom.link.Link;
 import taco.jalapeno.atom.link.MonadicLink;
 import taco.jalapeno.vars.Var;
-import taco.jalapeno.vars.VarNumber;
 
 public class ExecutableLink extends Link {
 	Link left;

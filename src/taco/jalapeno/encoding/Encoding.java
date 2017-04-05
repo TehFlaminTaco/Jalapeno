@@ -6,19 +6,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import taco.jalapeno.atom.Atom;
-import taco.jalapeno.atom.MultiByte;
 import taco.jalapeno.atom.generics.AtomNull;
 import taco.jalapeno.atom.generics.AtomTerminateChain;
-import taco.jalapeno.atom.link.DyadicLink;
-import taco.jalapeno.atom.link.MonadicLink;
-import taco.jalapeno.atom.link.NiladicLink;
-import taco.jalapeno.atom.link.links.monads.MonadPrint;
-import taco.jalapeno.atom.link.links.nilads.NiladHello;
-import taco.jalapeno.atom.link.links.nilads.literals.NiladLiteral;
-import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateCompressed;
-import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateNumber;
-import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateString;
-import taco.jalapeno.atom.link.links.nilads.literals.NiladTerminateUgly;
+import taco.jalapeno.atom.link.links.dyads.*;
+import taco.jalapeno.atom.link.links.monads.*;
+import taco.jalapeno.atom.link.links.nilads.*;
+import taco.jalapeno.atom.link.links.nilads.literals.*;
+import taco.jalapeno.atom.quick.quicks.*;
 
 public class Encoding {
 	
@@ -34,12 +28,16 @@ public class Encoding {
 		
 		add_encoding(AtomNull.class, "NULL", '\0');
 		add_encoding(AtomTerminateChain.class, "TERMINATE_CHAIN", '\n', '¶');
-		add_encoding(MultiByte.class, "BLAH", 'z');
+		
+		// QUICKS
+		add_encoding(QuickCombDyad.class, "DYADIC_COMBINE", '$');
+		add_encoding(QuickFold.class, "FOLD", '/');
 		
 		// MONADS
 		add_encoding(MonadPrint.class, "PRINT", 'p');
 		
 		// DYADS
+		add_encoding(DyadAdd.class, "ADD", '+');
 		
 		// NILADS
 		add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
@@ -48,13 +46,19 @@ public class Encoding {
 		add_encoding(NiladTerminateNumber.class, "LITERAL_END_NUMBER", '»');
 		add_encoding(NiladTerminateCompressed.class, "LITERAL_END_COMPRESSED", '’');
 		add_encoding(NiladTerminateUgly.class, "LITERAL_END_UGLY", '"');
+		add_encoding(NiladTerminateNumberUgly.class, "LITERAL_END_NUMBER_UGLY", '«');
 		
 		finish_encoding();
 	}
 	
 	private static void finish_encoding() {
 		while(nextbyte!=0){
-			add_encoding(AtomNull.class, "NUL", '_');
+			char to_use = '_';
+			char possible = new String(new byte[]{nextbyte}).charAt(0);
+			if(char_mapping.get(possible)==null){
+				to_use = possible;
+			}
+			add_encoding(AtomNull.class, "NUL", to_use);
 		}
 	}
 
@@ -62,8 +66,13 @@ public class Encoding {
 		byte b = next_byte();
 		byte_mapping.put(b, target);
 		token_mapping.put(token, b);
-		for(int i=0; i<chr.length; i++)
+		for(int i=0; i<chr.length; i++){
+			if(char_mapping.get(chr[i])!=null){
+				System.err.print(chr[i] + " is already assigned to ");
+				System.err.println(byte_mapping.get(char_mapping.get(chr[i])));
+			}
 			char_mapping.put(chr[i], b);
+		}
 	}
 
 	private static byte nextbyte = 0;
@@ -140,9 +149,11 @@ public class Encoding {
 		ArrayList<Character> chars = new ArrayList<Character>();
 		for(int i=0; i<b.length; i++){
 			if (char_mapping.containsValue(b[i])){
+				boolean found = false;
 				for(Character c : char_mapping.keySet()){
 					if(char_mapping.get(c)==b[i]){
 						chars.add(c);
+						found = true;
 						break;
 					}
 				}

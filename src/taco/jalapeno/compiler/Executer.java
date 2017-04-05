@@ -10,6 +10,10 @@ public class Executer {
 	public static Var[] execute(ArrayList<ArrayList<Link>> chains, Var[] arguments) throws Exception{
 		for(ArrayList<Link> chain_al : chains){
 			ArrayList<Link> chain = new ArrayList<Link>();
+			Link topNilad = null;
+			if(arguments.length==0){
+				topNilad = chain_al.remove(0);
+			}
 			for(int i=0; i < chain_al.size(); i++){
 				// This segment turns dyad-nilad and nilad-(monad-*)dyad pairs into monads. Yay.
 				if(chain_al.get(i).getarguments()==0){
@@ -48,10 +52,10 @@ public class Executer {
 				System.err.println(l);
 			}
 			if(arguments.length==0){
-				if(chain.get(0).getarguments()!=0){
+				if(topNilad==null || topNilad.getarguments()!=0){
 					throw new Exception("Failed to execute chain Niladically. Chain must start with a nilad.");
 				}
-				arguments = new Var[]{chain.remove(0).execute(arguments)}; // Execute Niladic Chains monadlicly.
+				arguments = new Var[]{topNilad.execute(arguments)}; // Execute Niladic Chains monadlicly.
 			}
 			
 			// I'm not even going to begin to explain how the below works, I don't properly understand it myself, and I wrote it all.
@@ -81,7 +85,7 @@ public class Executer {
 			while(chain.size()>0){
 				int i = 0;
 				if(arguments.length==1){
-					if(chain.get(0).getarguments()==2){
+					if(chain.size()>1 && chain.get(0).getarguments()==2){
 						i = 2;
 						arguments = new Var[]{chain.get(0).execute(new Var[]{
 								arguments[0],chain.get(1).execute(new Var[]{arguments[0]})

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class VarNumber extends Var {
-	BigDecimal data = BigDecimal.ZERO;
+	public BigDecimal data = BigDecimal.ZERO;
 	
 	public VarNumber(BigDecimal n) {
 		data = n;

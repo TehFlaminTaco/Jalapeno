@@ -1,8 +1,5 @@
 package taco.jalapeno.atom.link.links.nilads.literals;
 
-import java.util.ArrayList;
-
-import taco.jalapeno.atom.link.Link;
 import taco.jalapeno.atom.link.NiladicLink;
 import taco.jalapeno.vars.Var;
 

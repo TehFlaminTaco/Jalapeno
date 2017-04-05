@@ -6,8 +6,8 @@ import taco.jalapeno.atom.Atom;
 import taco.jalapeno.vars.Var;
 
 public class Link extends Atom {
-	public void compile(ArrayList<Link> chain){
-		chain.add(this);
+	public void compile(ArrayList<ArrayList<Link>> chains){
+		chains.get(chains.size()-1).add(this);
 	}
 	
 	public int getarguments(){

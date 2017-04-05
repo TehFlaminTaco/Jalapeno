@@ -14,4 +14,13 @@ public class Var {
 		return null;
 	}
 	
+	public VarList toListOrEntry(){
+		if(this instanceof VarList){
+			return (VarList)this;
+		}else{
+			VarList out = new VarList();
+			out.data.add(this);
+			return out;
+		}
+	}
 }
