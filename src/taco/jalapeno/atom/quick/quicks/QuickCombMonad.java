@@ -7,7 +7,7 @@ import taco.jalapeno.atom.link.Link;
 import taco.jalapeno.atom.link.links.quick_exts.ChainLink;
 import taco.jalapeno.atom.quick.Quick;
 
-public class QuickCombDyad extends Quick {
+public class QuickCombMonad extends Quick {
 	@Override
 	public void compile(ArrayList<Chain> chains){
 		Chain chain = chains.get(chains.size()-1);
@@ -17,7 +17,7 @@ public class QuickCombDyad extends Quick {
 		micro_chain.add(b);
 		micro_chain.add(a);
 		ChainLink chain_link = new ChainLink();
-		chain_link.setarguments(2);
+		chain_link.setarguments(1);
 		chain_link.chain = micro_chain;
 		chain.add(chain_link);
 	}

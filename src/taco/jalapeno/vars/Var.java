@@ -14,6 +14,10 @@ public class Var {
 		return null;
 	}
 	
+	public boolean truthy(){
+		return false;
+	}
+	
 	public VarList toListOrEntry(){
 		if(this instanceof VarList){
 			return (VarList)this;

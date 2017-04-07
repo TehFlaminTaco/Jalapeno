@@ -1,11 +1,10 @@
 package taco.jalapeno.atom.link.links.dyads;
 
-import java.math.BigDecimal;
-
 import taco.jalapeno.atom.link.DyadicLink;
 import taco.jalapeno.vars.*;
 
 public class DyadAdd extends DyadicLink {
+	@Override
 	public Var execute(Var a, Var b){
 		if(a instanceof VarList || b instanceof VarList){
 			VarList newList = new VarList();

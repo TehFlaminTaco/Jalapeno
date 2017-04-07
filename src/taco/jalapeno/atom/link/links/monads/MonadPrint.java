@@ -4,6 +4,7 @@ import taco.jalapeno.atom.link.MonadicLink;
 import taco.jalapeno.vars.Var;
 
 public class MonadPrint extends MonadicLink {
+	@Override
 	public Var execute(Var input){
 		System.out.println(input);
 		return input;

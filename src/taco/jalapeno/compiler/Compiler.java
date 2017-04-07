@@ -2,11 +2,11 @@ package taco.jalapeno.compiler;
 
 import java.util.ArrayList;
 
+import taco.jalapeno.Chain;
 import taco.jalapeno.Flags;
 import taco.jalapeno.atom.Atom;
 import taco.jalapeno.atom.MultiByte;
 import taco.jalapeno.atom.generics.AtomTerminateChain;
-import taco.jalapeno.atom.link.Link;
 import taco.jalapeno.atom.link.links.nilads.literals.NiladLiteral;
 import taco.jalapeno.atom.link.links.nilads.literals.NiladLiteralTerminate;
 import taco.jalapeno.encoding.Encoding;
@@ -17,9 +17,28 @@ public class Compiler {
 	
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<ArrayList<Link>> compile(String code, int flags) throws InstantiationException, IllegalAccessException{
+	public ArrayList<Chain> compile(String code, int flags) throws InstantiationException, IllegalAccessException{
+		if((flags & Flags.FLAG_PRODUCE_STRING)!=0){
+			int[] encoded = NiladLiteralTerminate.fromIntegerToInt(
+					NiladLiteralTerminate.fromBytesto250(code.getBytes())
+					);
+			Byte[] Bnewstr = NiladLiteralTerminate.from250(encoded);
+			
+			byte[] newstr = new byte[encoded.length];
+			for(int i=0; i<encoded.length; i++){
+				newstr[i] = Bnewstr[i];
+			}
+			System.out.println(new String(newstr));
+			System.out.println(Encoding.toCharacters(new String(newstr)));
+			return new ArrayList<Chain>();
+		}
+		
+		
 		if((flags & Flags.FLAG_TOKEN)!=0){
 			code = Encoding.DeTokenize(code, (flags & Flags.FLAG_SURPRESS)!=0);
+		}
+		if((flags & Flags.FLAG_UTF8)!=0){
+			code = Encoding.DeCharacterize(code, (flags & Flags.FLAG_SURPRESS)!=0);
 		}
 		if((flags & Flags.FLAG_PRINT_CHARS)!=0){
 			System.out.println(Encoding.toCharacters(code));
@@ -30,11 +49,11 @@ public class Compiler {
 		if((flags & Flags.FLAG_PRINT_BYTES)!=0){
 			System.out.println(new String(bytes));
 		}
-		ArrayList<ArrayList<Link>> chain_chains = new ArrayList<ArrayList<Link>>();
-		ArrayList<Link> chain = new ArrayList<Link>();
+		ArrayList<Chain> chain_chains = new ArrayList<Chain>();
+		Chain chain = new Chain();
 		chain_chains.add(chain);
 		while(i < bytes.length){
-			Class<?> a = (Class<?>) Encoding.get(bytes[i]);
+			Class<?> a = Encoding.get(bytes[i]);
 			if(a==null){
 				i++;
 				continue;
@@ -44,7 +63,7 @@ public class Compiler {
 				ArrayList<Byte> b = new ArrayList<Byte>();
 				i++;
 				while(i < bytes.length){
-					a = (Class<?>) Encoding.get(bytes[i]);
+					a = Encoding.get(bytes[i]);
 					if(NiladLiteralTerminate.class.isAssignableFrom(a)){
 						bb.add(b);
 						ArrayList<Var> lst = new ArrayList<Var>();
@@ -79,11 +98,11 @@ public class Compiler {
 			
 			if(atom instanceof AtomTerminateChain){
 				if(chain.size()>0){
-					chain = new ArrayList<Link>();
+					chain = new Chain();
 					chain_chains.add(chain);
 				}
 			}else{
-				atom.compile(chain_chains);
+				atom.compile(chain_chains, bytes[i]);
 			}
 			
 			i++;

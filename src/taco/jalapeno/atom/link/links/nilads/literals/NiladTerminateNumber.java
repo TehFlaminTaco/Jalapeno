@@ -6,6 +6,7 @@ import taco.jalapeno.vars.Var;
 import taco.jalapeno.vars.VarNumber;
 
 public class NiladTerminateNumber extends NiladLiteralTerminate {
+	@Override
 	public Var parse(Byte[] b_arr){
 		BigDecimal n = BigDecimal.ZERO;
 		int[] nums = NiladLiteralTerminate.to250(b_arr);

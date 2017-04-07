@@ -30,24 +30,44 @@ public class Encoding {
 		add_encoding(AtomTerminateChain.class, "TERMINATE_CHAIN", '\n', '¶');
 		
 		// QUICKS
-		add_encoding(QuickCombDyad.class, "DYADIC_COMBINE", '$');
+		add_encoding(QuickCombDyad.class, "DYADIC_COMBINE", '@');
+		add_encoding(QuickCombMonad.class, "MONADIC_COMBINE", '$');
 		add_encoding(QuickFold.class, "FOLD", '/');
+		add_encoding(QuickReduce.class, "REDUCE", '\\');
+		add_encoding(QuickLastDyadChain.class, "LAST_DYADIC", 'Ç');
+		add_encoding(QuickNextDyadChain.class, "NEXT_DYADIC", 'Ñ');
+		add_encoding(QuickLastMonadChain.class, "LAST_MONADIC", 'ç');
+		add_encoding(QuickNextMonadChain.class, "NEXT_MONADIC", 'ñ');
+		add_encoding(QuickTernary.class, "IF", '?');
+		
 		
 		// MONADS
 		add_encoding(MonadPrint.class, "PRINT", 'p');
+		add_encoding(MonadHalf.class, "HALF", 'h');
 		
 		// DYADS
 		add_encoding(DyadAdd.class, "ADD", '+');
+		add_encoding(DyadSubtract.class, "MINUS", '-');
+		add_encoding(DyadMultiply.class, "MULTIPLY", '×');
 		
 		// NILADS
-		add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
+		//add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
+		add_encoding(NiladNumber.class, "ZERO", '0');
+		add_encoding(NiladNumber.class, "ONE", '1');
+		add_encoding(NiladNumber.class, "TWO", '2');
+		add_encoding(NiladNumber.class, "THREE", '3');
+		add_encoding(NiladNumber.class, "FOUR", '4');
+		add_encoding(NiladNumber.class, "FIVE", '5');
+		add_encoding(NiladNumber.class, "SIX", '6');
+		add_encoding(NiladNumber.class, "SEVEN", '7');
+		add_encoding(NiladNumber.class, "EIGHT", '8');
+		add_encoding(NiladNumber.class, "NINE", '9');
 		add_encoding(NiladLiteral.class, "LITERAL", '“');
 		add_encoding(NiladTerminateString.class, "LITERAL_END_STRING", '”');
 		add_encoding(NiladTerminateNumber.class, "LITERAL_END_NUMBER", '»');
 		add_encoding(NiladTerminateCompressed.class, "LITERAL_END_COMPRESSED", '’');
 		add_encoding(NiladTerminateUgly.class, "LITERAL_END_UGLY", '"');
 		add_encoding(NiladTerminateNumberUgly.class, "LITERAL_END_NUMBER_UGLY", '«');
-		
 		finish_encoding();
 	}
 	
@@ -57,6 +77,8 @@ public class Encoding {
 			char possible = new String(new byte[]{nextbyte}).charAt(0);
 			if(char_mapping.get(possible)==null){
 				to_use = possible;
+			}else if(char_mapping.get((char)(byte)char_mapping.get(possible))==null){
+				to_use = (char)(byte)char_mapping.get(possible);
 			}
 			add_encoding(AtomNull.class, "NUL", to_use);
 		}
@@ -67,7 +89,7 @@ public class Encoding {
 		byte_mapping.put(b, target);
 		token_mapping.put(token, b);
 		for(int i=0; i<chr.length; i++){
-			if(char_mapping.get(chr[i])!=null){
+			if(char_mapping.get(chr[i])!=null && !AtomNull.class.equals(byte_mapping.get(char_mapping.get(chr[i])))){
 				System.err.print(chr[i] + " is already assigned to ");
 				System.err.println(byte_mapping.get(char_mapping.get(chr[i])));
 			}
@@ -157,6 +179,19 @@ public class Encoding {
 						break;
 					}
 				}
+				if(!found){
+					chars.add('¿');
+					for(char c : String.valueOf(b[i]).toCharArray()){
+						chars.add(c);
+					}
+					chars.add('?');
+				}
+			}else{
+				chars.add('¿');
+				for(char c : String.valueOf(b[i]).toCharArray()){
+					chars.add(c);
+				}
+				chars.add('?');
 			}
 		}
 		char[] char_array = new char[chars.size()];

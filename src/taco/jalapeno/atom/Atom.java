@@ -2,11 +2,14 @@ package taco.jalapeno.atom;
 
 import java.util.ArrayList;
 
-import taco.jalapeno.atom.link.Link;
-import taco.jalapeno.encoding.Encoding;
+import taco.jalapeno.Chain;
 
 public class Atom {
-	public void compile(ArrayList<ArrayList<Link>> chains){
+	public void compile(ArrayList<Chain> chains){
+	}
+	
+	public void compile(ArrayList<Chain> chains, byte b){
+		compile(chains);
 	}
 	
 }

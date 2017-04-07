@@ -11,6 +11,7 @@ public class NiladLiteral extends NiladicLink {
 		this.data = dat;
 	}
 	
+	@Override
 	public Var execute(){
 		return data;
 	}

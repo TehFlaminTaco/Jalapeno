@@ -4,10 +4,12 @@ import taco.jalapeno.vars.Var;
 import taco.jalapeno.vars.VarNumber;
 
 public class DyadicLink extends Link {
+	@Override
 	public int getarguments(){
 		return 2;
 	}
 	
+	@Override
 	public Var execute(Var[] arguments){
 		for(int i=0; i<arguments.length; i++){
 			if(arguments[i]==null){

@@ -9,8 +9,16 @@ public class VarNumber extends Var {
 	public VarNumber(BigDecimal n) {
 		data = n;
 	}
+	
+	public boolean truthy(){
+		return data.compareTo(BigDecimal.ZERO)!=0;
+	}
 
 	public VarNumber() {
+	}
+
+	public VarNumber(long i) {
+		data = new BigDecimal(i);
 	}
 
 	public String toString(){

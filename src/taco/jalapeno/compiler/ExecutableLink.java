@@ -21,10 +21,12 @@ public class ExecutableLink extends Link {
 	public ExecutableLink setArgRight(Var argRight){this.argRight = argRight;return this;}
 	public ExecutableLink setArguments(int args){this.arguments = args;return this;}
 	
+	@Override
 	public int getarguments(){
 		return arguments;
 	}
 	
+	@Override
 	public Var execute(Var[] args){
 		int n = -1;
 		Var aLeft = null;

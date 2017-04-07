@@ -4,6 +4,7 @@ import taco.jalapeno.vars.Var;
 import taco.jalapeno.vars.VarList;
 
 public class NiladTerminateString extends NiladLiteralTerminate {
+	@Override
 	public Var parse(Byte[] b_arr){
 		
 		Byte[] B = NiladLiteralTerminate.from250toBytes(NiladLiteralTerminate.to250(b_arr));

@@ -10,6 +10,10 @@ public class VarList extends Var {
 		this.data = l;
 	}
 	
+	public boolean truthy(){
+		return data.size()!=0;
+	}
+	
 	public VarList(){
 		data = new ArrayList<Var>();
 	}

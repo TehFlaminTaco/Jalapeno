@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 public class VarChar extends Var {
 	public char data = 0;
 	
+	public boolean truthy(){
+		return data!=0;
+	}
+	
 	public VarChar(char a){
 		this.data = a;
 	}

@@ -7,10 +7,10 @@ import taco.jalapeno.vars.VarList;
 import taco.jalapeno.vars.VarNumber;
 
 public class LinkFold extends MonadicLink {
-	int arguments = 0;
 	Link link = null;
 	public LinkFold setlink(Link l){link=l;return this;}
 	
+	@Override
 	public Var execute(Var[] args){
 		if(args.length==0 || !(args[0] instanceof VarList)){
 			return null;
