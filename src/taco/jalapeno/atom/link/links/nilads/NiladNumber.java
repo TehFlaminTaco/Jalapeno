@@ -17,10 +17,19 @@ public class NiladNumber extends NiladicLink {
 		Chain chain = chains.get(chains.size()-1);
 		toPush = new VarNumber();
 		if(chain.size()>0 && chain.get(chain.size()-1) instanceof NiladNumber){
-			toPush.data = ((NiladNumber)chain.remove(chain.size()-1)).toPush.data.scaleByPowerOfTen(1);
+			toPush.data = ((NiladNumber)chain.remove(chain.size()-1)).append(getVal(b));
+		}else{
+			toPush.data = toPush.data.add(getVal(b));
 		}
-		toPush.data = toPush.data.add(new BigDecimal(b - Encoding.getByte('0')));
 		chain.add(this);
+	}
+	
+	public BigDecimal getVal(byte b){
+		return new BigDecimal(b - Encoding.getByte('0'));
+	}
+	
+	public BigDecimal append(BigDecimal n){
+		return toPush.data.scaleByPowerOfTen(1).add(toPush.data.compareTo(BigDecimal.ZERO)>=0 ? n : n.negate());
 	}
 	
 	@Override

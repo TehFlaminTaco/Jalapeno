@@ -21,8 +21,12 @@ public class VarNumber extends Var {
 		data = new BigDecimal(i);
 	}
 
+	public VarNumber(String s) {
+		data = new BigDecimal(s);
+	}
+
 	public String toString(){
-		return data.toString();
+		return data.toPlainString();
 	}
 	
 	public VarChar toChar(){

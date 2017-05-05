@@ -2,6 +2,7 @@ package taco.jalapeno.vars;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VarList extends Var {
 	public ArrayList<Var> data;
@@ -24,6 +25,10 @@ public class VarList extends Var {
 			l.add(new VarChar(string.charAt(i)));
 		}
 		data = l;
+	}
+	
+	public VarList(Var[] lst){
+		data = new ArrayList<Var>(Arrays.asList(lst));
 	}
 	
 	public String toString(){

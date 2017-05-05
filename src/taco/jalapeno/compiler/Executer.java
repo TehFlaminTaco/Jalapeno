@@ -3,6 +3,9 @@ package taco.jalapeno.compiler;
 import taco.jalapeno.Chain;
 import taco.jalapeno.atom.link.Link;
 import taco.jalapeno.vars.Var;
+import taco.jalapeno.vars.VarChar;
+import taco.jalapeno.vars.VarList;
+import taco.jalapeno.vars.VarNumber;
 
 public class Executer {
 	
@@ -139,5 +142,24 @@ public class Executer {
 			}
 		}
 		return arguments;
+	}
+
+	public static Var[] execute(Chain chain_al, String[] arguments) throws Exception {
+		Var[] new_args = new Var[arguments.length];
+		for(int i=0; i < arguments.length; i++){
+			String s = arguments[i];
+			if(s.charAt(0)=='"' && s.charAt(s.length()-1) == '"'){
+				new_args[i] = new VarList(s.substring(1, -2));
+			}else if(s.charAt(0)=='\'' && s.charAt(s.length()-1) == '\''){
+				new_args[i] = new VarChar(s.charAt(1));
+			}else{
+				if(s.matches("^-?\\d*(\\d|(\\.\\d+))$")){
+					new_args[i] = new VarNumber(s);
+				}else{
+					new_args[i] = new VarList(s);
+				}
+			}
+		}
+		return execute(chain_al, new_args);
 	}
 }

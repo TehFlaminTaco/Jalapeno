@@ -26,6 +26,20 @@ public class Encoding {
 		token_mapping = new HashMap<String, Byte>();
 		char_mapping = new HashMap<Character, Byte>();
 		
+		// These are at the start, so that the literal bytes 0 - 9 are numbers.
+		add_encoding(NiladNumber.class, "ZERO", '0');
+		add_encoding(NiladNumber.class, "ONE", '1');
+		add_encoding(NiladNumber.class, "TWO", '2');
+		add_encoding(NiladNumber.class, "THREE", '3');
+		add_encoding(NiladNumber.class, "FOUR", '4');
+		add_encoding(NiladNumber.class, "FIVE", '5');
+		add_encoding(NiladNumber.class, "SIX", '6');
+		add_encoding(NiladNumber.class, "SEVEN", '7');
+		add_encoding(NiladNumber.class, "EIGHT", '8');
+		add_encoding(NiladNumber.class, "NINE", '9');
+		
+		add_encoding(NiladNegative.class, "NEGATIVE", '-');
+		
 		add_encoding(AtomNull.class, "NULL", '\0');
 		add_encoding(AtomTerminateChain.class, "TERMINATE_CHAIN", '\n', '¶');
 		
@@ -44,24 +58,19 @@ public class Encoding {
 		// MONADS
 		add_encoding(MonadPrint.class, "PRINT", 'p');
 		add_encoding(MonadHalf.class, "HALF", 'h');
+		add_encoding(MonadRange.class, "RANGE", 'r');
+		add_encoding(MonadLoweredRange.class, "LOWERED_RANGE", 'l');
+		add_encoding(MonadFlatten.class, "FLATTEN", 'f');
 		
 		// DYADS
 		add_encoding(DyadAdd.class, "ADD", '+');
-		add_encoding(DyadSubtract.class, "MINUS", '-');
+		add_encoding(DyadSubtract.class, "MINUS", '_');
 		add_encoding(DyadMultiply.class, "MULTIPLY", '×');
+		add_encoding(DyadDivide.class, "DIVIDE", '÷');
+		add_encoding(DyadExponentiate.class, "EXPONENTIATE", 'E');
 		
 		// NILADS
 		//add_encoding(NiladHello.class, "HELLO_WORLD", 'h');
-		add_encoding(NiladNumber.class, "ZERO", '0');
-		add_encoding(NiladNumber.class, "ONE", '1');
-		add_encoding(NiladNumber.class, "TWO", '2');
-		add_encoding(NiladNumber.class, "THREE", '3');
-		add_encoding(NiladNumber.class, "FOUR", '4');
-		add_encoding(NiladNumber.class, "FIVE", '5');
-		add_encoding(NiladNumber.class, "SIX", '6');
-		add_encoding(NiladNumber.class, "SEVEN", '7');
-		add_encoding(NiladNumber.class, "EIGHT", '8');
-		add_encoding(NiladNumber.class, "NINE", '9');
 		add_encoding(NiladLiteral.class, "LITERAL", '“');
 		add_encoding(NiladTerminateString.class, "LITERAL_END_STRING", '”');
 		add_encoding(NiladTerminateNumber.class, "LITERAL_END_NUMBER", '»');
@@ -73,7 +82,7 @@ public class Encoding {
 	
 	private static void finish_encoding() {
 		while(nextbyte!=0){
-			char to_use = '_';
+			char to_use = 'ê';
 			char possible = new String(new byte[]{nextbyte}).charAt(0);
 			if(char_mapping.get(possible)==null){
 				to_use = possible;
@@ -102,7 +111,7 @@ public class Encoding {
 		return nextbyte++;
 	}
 	
-	public static String DeCharacterize(String code, boolean surpress){
+	public static byte[] DeCharacterize(String code, boolean surpress){
 		char[] characters = code.toCharArray();
 		ArrayList<Byte> bytes = new ArrayList<Byte>();
 		for(int i=0; i<characters.length; i++){
@@ -118,10 +127,10 @@ public class Encoding {
 		for(int i=0; i < bytes.size(); i++){
 			byte_array[i]=bytes.get(i);
 		}
-		return new String(byte_array);
+		return byte_array;
 	}
 	
-	public static String DeTokenize(String code, boolean surpress){
+	public static byte[] DeTokenize(String code, boolean surpress){
 		ArrayList<byte[]> byte_literals = new ArrayList<byte[]>();
 		System.err.println(code);
 		Matcher m = match_strings.matcher(code);
@@ -131,7 +140,7 @@ public class Encoding {
 			if(m.group(2).equals("\"")){
 				byte_literals.add(escape(m.group(3)).getBytes());
 			}else if(m.group(2).equals("'")){
-				byte_literals.add(DeCharacterize(escape(m.group(3)),surpress).getBytes());
+				byte_literals.add(DeCharacterize(escape(m.group(3)),surpress));
 			}else{
 				byte_literals.add(new byte[]{(byte)Integer.parseInt(m.group(3))});
 			}
@@ -150,6 +159,9 @@ public class Encoding {
 					bytes.add(cur_literal[c]);
 				}
 			}else{
+				if(tokens[i].length()==0){
+					continue;
+				}
 				Byte mapped = token_mapping.get(tokens[i]);
 				if(token_mapping.get(tokens[i])==null){
 					if(!surpress)
@@ -163,11 +175,11 @@ public class Encoding {
 		for(int i=0; i < bytes.size(); i++){
 			byte_array[i]=bytes.get(i);
 		}
-		return new String(byte_array);
+		return byte_array;
 	}
 	
-	public static String toCharacters(String code){
-		byte[] b = code.getBytes();
+	public static String toCharacters(byte[] bs){
+		byte[] b = bs;
 		ArrayList<Character> chars = new ArrayList<Character>();
 		for(int i=0; i<b.length; i++){
 			if (char_mapping.containsValue(b[i])){

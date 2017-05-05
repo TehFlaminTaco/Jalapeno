@@ -1,5 +1,6 @@
 package taco.jalapeno.compiler;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import taco.jalapeno.Chain;
@@ -17,10 +18,10 @@ public class Compiler {
 	
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<Chain> compile(String code, int flags) throws InstantiationException, IllegalAccessException{
+	public ArrayList<Chain> compile(byte[] bs, int flags) throws InstantiationException, IllegalAccessException{
 		if((flags & Flags.FLAG_PRODUCE_STRING)!=0){
 			int[] encoded = NiladLiteralTerminate.fromIntegerToInt(
-					NiladLiteralTerminate.fromBytesto250(code.getBytes())
+					NiladLiteralTerminate.fromBytesto250(bs)
 					);
 			Byte[] Bnewstr = NiladLiteralTerminate.from250(encoded);
 			
@@ -29,23 +30,23 @@ public class Compiler {
 				newstr[i] = Bnewstr[i];
 			}
 			System.out.println(new String(newstr));
-			System.out.println(Encoding.toCharacters(new String(newstr)));
+			System.out.println(Encoding.toCharacters(newstr));
 			return new ArrayList<Chain>();
 		}
 		
 		
 		if((flags & Flags.FLAG_TOKEN)!=0){
-			code = Encoding.DeTokenize(code, (flags & Flags.FLAG_SURPRESS)!=0);
+			bs = Encoding.DeTokenize(new String(bs, Charset.forName("UTF-8")), (flags & Flags.FLAG_SURPRESS)!=0);
 		}
 		if((flags & Flags.FLAG_UTF8)!=0){
-			code = Encoding.DeCharacterize(code, (flags & Flags.FLAG_SURPRESS)!=0);
+			bs = Encoding.DeCharacterize(new String(bs, Charset.forName("UTF-8")), (flags & Flags.FLAG_SURPRESS)!=0);
 		}
 		if((flags & Flags.FLAG_PRINT_CHARS)!=0){
-			System.out.println(Encoding.toCharacters(code));
+			System.out.println(Encoding.toCharacters(bs));
 		}
 		
 		int i = 0;
-		byte[] bytes = code.getBytes();
+		byte[] bytes = bs;
 		if((flags & Flags.FLAG_PRINT_BYTES)!=0){
 			System.out.println(new String(bytes));
 		}
