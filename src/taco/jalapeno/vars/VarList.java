@@ -3,6 +3,7 @@ package taco.jalapeno.vars;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class VarList extends Var {
 	public ArrayList<Var> data;
@@ -30,7 +31,11 @@ public class VarList extends Var {
 	public VarList(Var[] lst){
 		data = new ArrayList<Var>(Arrays.asList(lst));
 	}
-	
+
+	public VarList(List<Var> list) {
+		data = new ArrayList<Var>(list);
+	}
+
 	public String toString(){
 		boolean contains_only_chars = true;
 		String cString = "";

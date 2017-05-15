@@ -11,7 +11,7 @@ public class NiladTerminateNumber extends NiladLiteralTerminate {
 		BigDecimal n = BigDecimal.ZERO;
 		int[] nums = NiladLiteralTerminate.to250(b_arr);
 		for(int i=0; i<nums.length; i++){
-			n=n.pow(250).add(new BigDecimal(nums[i]));
+			n=n.multiply(new BigDecimal(250)).add(new BigDecimal(nums[i]));
 		}
 		return new VarNumber(n);
 	}

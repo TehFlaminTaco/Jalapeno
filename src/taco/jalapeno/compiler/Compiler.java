@@ -1,5 +1,6 @@
 package taco.jalapeno.compiler;
 
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -34,6 +35,24 @@ public class Compiler {
 			return new ArrayList<Chain>();
 		}
 		
+		if((flags & Flags.FLAG_PRODUCE_NUMBER)!=0){
+			String numb_s = new String(bs, Charset.forName("UTF-8"));
+			BigDecimal big_n = new BigDecimal(numb_s);
+			ArrayList<Integer> encoded = new ArrayList<Integer>();
+			while(big_n.compareTo(BigDecimal.ZERO)>0){
+				BigDecimal[] dnr = big_n.divideAndRemainder(new BigDecimal(250));
+				encoded.add(0,dnr[1].intValue());
+				big_n = dnr[0];
+			}
+			Integer[] encoded_raw = new Integer[encoded.size()];
+			encoded_raw = encoded.toArray(encoded_raw);
+			int[] encoded_raw_primitive = NiladLiteralTerminate.fromIntegerToInt(encoded_raw);
+			byte[] bytes = NiladLiteralTerminate.fromByteTobyte(NiladLiteralTerminate.from250(encoded_raw_primitive));
+			System.out.println(new String(bytes));
+			System.out.println(new String(bytes, Charset.forName("UTF-8")));
+			System.out.println(new String(Encoding.toCharacters(bytes)));
+			return new ArrayList<Chain>();
+		}
 		
 		if((flags & Flags.FLAG_TOKEN)!=0){
 			bs = Encoding.DeTokenize(new String(bs, Charset.forName("UTF-8")), (flags & Flags.FLAG_SURPRESS)!=0);

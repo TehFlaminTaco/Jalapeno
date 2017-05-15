@@ -53,6 +53,7 @@ public class Encoding {
 		add_encoding(QuickLastMonadChain.class, "LAST_MONADIC", 'ç');
 		add_encoding(QuickNextMonadChain.class, "NEXT_MONADIC", 'ñ');
 		add_encoding(QuickTernary.class, "IF", '?');
+		add_encoding(QuickFlip.class, "FLIP", '¡');
 		
 		
 		// MONADS
@@ -61,6 +62,7 @@ public class Encoding {
 		add_encoding(MonadRange.class, "RANGE", 'r');
 		add_encoding(MonadLoweredRange.class, "LOWERED_RANGE", 'l');
 		add_encoding(MonadFlatten.class, "FLATTEN", 'f');
+		add_encoding(MonadBinary.class, "TOBINARY", 'b');
 		
 		// DYADS
 		add_encoding(DyadAdd.class, "ADD", '+');
@@ -68,6 +70,9 @@ public class Encoding {
 		add_encoding(DyadMultiply.class, "MULTIPLY", '×');
 		add_encoding(DyadDivide.class, "DIVIDE", '÷');
 		add_encoding(DyadExponentiate.class, "EXPONENTIATE", 'E');
+		add_encoding(DyadTimes.class, "TIMES", '‡');
+		add_encoding(DyadSplit.class, "SPLIT", '|');
+		add_encoding(DyadIndex.class, "INDEX", 'I');
 		
 		// NILADS
 		//add_encoding(NiladHello.class, "HELLO_WORLD", 'h');

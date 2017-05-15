@@ -11,16 +11,16 @@ public class DyadicLink extends Link {
 	
 	@Override
 	public Var execute(Var[] arguments){
-		for(int i=0; i<arguments.length; i++){
-			if(arguments[i]==null){
-				arguments[i] = new VarNumber();
-			}
-		}
 		if(arguments.length==0){
 			return execute(new VarNumber(), new VarNumber());
 		}
 		if(arguments.length==1){
 			return execute(arguments[0], arguments[0]);
+		}
+		for(int i=0; i<arguments.length; i++){
+			if(arguments[i]==null){
+				arguments[i] = new VarNumber();
+			}
 		}
 		return execute(arguments[0],arguments[1]);
 	}

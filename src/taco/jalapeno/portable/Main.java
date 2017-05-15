@@ -11,8 +11,6 @@ import taco.jalapeno.Flags;
 import taco.jalapeno.Jalapeno;
 import taco.jalapeno.compiler.Executer;
 import taco.jalapeno.vars.Var;
-import taco.jalapeno.vars.VarList;
-import taco.jalapeno.vars.VarNumber;
 
 public class Main {
 
@@ -49,7 +47,7 @@ public class Main {
 		
 		ArrayList<Chain> chains = jalapeno.compile(Files.readAllBytes(Paths.get(args[0])), flags);
 		Var[] out = Executer.execute(chains.get(chains.size()-1),
-									 new Var[]{});
+									 jalapeno.arguments);
 		for(int i=0; i<out.length; i++){
 			System.out.print(out[i]);
 		}
