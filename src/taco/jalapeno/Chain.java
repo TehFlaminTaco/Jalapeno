@@ -103,6 +103,7 @@ public class Chain extends ArrayList<Link> {
 	
 	public void reset(){
 		executed = false;
+		stored = null;
 	}
 	
 }

@@ -46,12 +46,18 @@ public class Encoding {
 		// QUICKS
 		add_encoding(QuickCombDyad.class, "DYADIC_COMBINE", '@');
 		add_encoding(QuickCombMonad.class, "MONADIC_COMBINE", '$');
+		add_encoding(QuickCombNilad.class, "NILADIC_COMBINE", '#');
 		add_encoding(QuickFold.class, "FOLD", '/');
 		add_encoding(QuickReduce.class, "REDUCE", '\\');
 		add_encoding(QuickLastDyadChain.class, "LAST_DYADIC", 'Ç');
+		add_encoding(QuickThisDyadChain.class, "THIS_DYADIC", 'Ð');
 		add_encoding(QuickNextDyadChain.class, "NEXT_DYADIC", 'Ñ');
 		add_encoding(QuickLastMonadChain.class, "LAST_MONADIC", 'ç');
+		add_encoding(QuickThisMonadChain.class, "THIS_MONADIC", 'ð');
 		add_encoding(QuickNextMonadChain.class, "NEXT_MONADIC", 'ñ');
+		add_encoding(QuickLastNiladChain.class, "LAST_NILADIC", 'ø');
+		add_encoding(QuickThisNiladChain.class, "THIS_NILADIC", 'µ');
+		add_encoding(QuickNextNiladChain.class, "NEXT_NILADIC", 'Ø');
 		add_encoding(QuickTernary.class, "IF", '?');
 		add_encoding(QuickFlip.class, "FLIP", '¡');
 		
@@ -63,6 +69,8 @@ public class Encoding {
 		add_encoding(MonadLoweredRange.class, "LOWERED_RANGE", 'l');
 		add_encoding(MonadFlatten.class, "FLATTEN", 'f');
 		add_encoding(MonadBinary.class, "TOBINARY", 'b');
+		add_encoding(MonadProduct.class, "PRODUCT", 'm');
+		add_encoding(MonadSum.class, "SUM", 's');
 		
 		// DYADS
 		add_encoding(DyadAdd.class, "ADD", '+');

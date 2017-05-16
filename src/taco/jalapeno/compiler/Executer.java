@@ -67,14 +67,19 @@ public class Executer {
 				chain.execute("ab+", "+(a(v),b(w))", arguments);
 				chain.execute("+", "+(v,w)", arguments);
 				chain.execute("a", "a(v,w)", arguments);
+				chain.execute("ç", "ç(v,w)", arguments);
 			}else{
 				chain.execute("+×÷", "+(×(v),÷(w))", arguments);
 				chain.execute("a+", "+(a(v),w)", arguments);
 				chain.execute("ab+", "+(a(v),b(w))", arguments);
 				chain.execute("+", "+(v,w)", arguments);
 				chain.execute("a", "a(v,w)", arguments);
+				chain.execute("ç", "ç(v,w)", arguments);
 			}
 			Var out = chain.get_stored();
+			if(out==null){
+				return arguments;
+			}
 			arguments = new Var[]{out};
 		}
 		return arguments;
